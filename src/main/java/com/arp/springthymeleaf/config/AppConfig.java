@@ -15,9 +15,9 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-@Configuration
-@EnableWebMvc
-@ComponentScan
+//@Configuration
+//@EnableWebMvc
+//@ComponentScan
 public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
     private ApplicationContext applicationContext;
 
@@ -62,7 +62,7 @@ public class AppConfig implements ApplicationContextAware, WebMvcConfigurer {
         // resource resolution infrastructure, which is highly recommended.
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
-        templateResolver.setPrefix("/resources/templates/");
+        //templateResolver.setPrefix("/resources/templates/");
         templateResolver.setSuffix(".html");
         // HTML is the default value, added here for the sake of clarity.
         templateResolver.setTemplateMode(TemplateMode.HTML);
