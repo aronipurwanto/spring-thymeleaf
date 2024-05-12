@@ -1,11 +1,11 @@
 package com.arp.springthymeleaf.category.controller;
 
+import com.arp.springthymeleaf.category.model.CategoryRequest;
 import com.arp.springthymeleaf.category.model.CategoryResponse;
 import com.arp.springthymeleaf.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -36,13 +36,23 @@ public class CategoryController {
         return view;
     }
 
-    public ModelAndView addCategory() {
-        ModelAndView view = new ModelAndView("category/addCategory");
+    @GetMapping("/{id}")
+    public ModelAndView addCategory(@PathVariable("id") Long id) {
+        ModelAndView view = new ModelAndView("category/detail");
+        CategoryResponse category = service.getCategoryById(id);
         return view;
     }
 
-    public ModelAndView editCategory() {
-        ModelAndView view = new ModelAndView("category/editCategory");
+    @GetMapping("/add")
+    public ModelAndView addCategory() {
+        ModelAndView view = new ModelAndView("category/add");
         return view;
+    }
+
+    @PostMapping("/save")
+    public ModelAndView saveCategory(@ModelAttribute("category") CategoryRequest category) {
+        ModelAndView view = new ModelAndView("category/add");
+        CategoryResponse categoryResponse = service.addCategory(category);
+        return new ModelAndView("redirect:/category");
     }
 }
