@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private List<CategoryResponse> categories;
+    private final List<CategoryResponse> categories;
 
     public CategoryServiceImpl() {
         categories = new ArrayList<>();
@@ -18,16 +18,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponse> getAllCategories() {
-        List<CategoryResponse> responses = new ArrayList<>();
-        responses.add(new CategoryResponse(1L, "Makanan", "Ini Makanan"));
-        responses.add(new CategoryResponse(2L, "Minuman", "Ini Minuman"));
-        responses.add(new CategoryResponse(3L, "Elektronik", "Ini Elektronik"));
-        responses.add(new CategoryResponse(4L, "Fashion", "Ini Fashion"));
-        responses.add(new CategoryResponse(5L, "Gadget", "Ini Gatget"));
-
-        if(categories.isEmpty()) {
-            categories.addAll(responses);
-        }
         return categories;
     }
 
@@ -39,8 +29,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse addCategory(CategoryRequest categoryRequest) {
+
+        long maxId = categories.stream()
+                .mapToLong(CategoryResponse::getId)
+                .max()
+                .orElse(0);
+        long newId = maxId + 1;
+
         CategoryResponse response = new CategoryResponse();
         BeanUtils.copyProperties(categoryRequest, response);
+        response.setId(newId);
         categories.add(response);
         return response;
     }
